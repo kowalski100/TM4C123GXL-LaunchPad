@@ -15,15 +15,15 @@
 
 typedef struct {                                                       
   __I uint32_t  RESERVED[255];
-  __IO uint32_t  GPIO_PORTF_DATA_REG;                              /*!< GPIO Data                                                             */
-  __IO uint32_t  GPIO_PORTF_DIR_REG;                               /*!< GPIO Direction                                                        */
+  __IO uint32_t  GPIO_DATA_REG;                              /*!< GPIO Data                                                             */
+  __IO uint32_t  GPIO_DIR_REG;                               /*!< GPIO Direction                                                        */
   
   /*
     SKIPPED MEMORY MAPPED REGISTERS
   */
   __I uint32_t  SKIPPED_REG[7];                               /*!< GPIO Interrupt Event                                                  */
 
-  __IO uint32_t  GPIO_PORTF_AFSEL_REG;                             /*!< GPIO Alternate Function Select                                        */
+  __IO uint32_t  GPIO_AFSEL_REG;                             /*!< GPIO Alternate Function Select                                        */
 
   /*
     SKIPPED MEMORY MAPPED REGISTERS
@@ -31,18 +31,18 @@ typedef struct {
   __I uint32_t  RESERVED1[55];
   __I uint32_t  SKIPPED_REG1[4];                               /*!< GPIO Interrupt Event                                                  */
 
-  __IO uint32_t  GPIO_PORTF_PUR_REG;                               /*!< GPIO Pull-Up Select                                                   */
+  __IO uint32_t  GPIO_PUR_REG;                               /*!< GPIO Pull-Up Select                                                   */
 
   /*
     SKIPPED MEMORY MAPPED REGISTERS
   */  
   __I uint32_t  SKIPPED_REG2[2];                               /*!< GPIO Interrupt Event                                                  */
 
-  __IO uint32_t  GPIO_PORTF_DEN_REG;                               /*!< GPIO Digital Enable                                                   */
-  __IO uint32_t  GPIO_PORTF_LOCK_REG;                              /*!< GPIO Lock                                                             */
-  __IO uint32_t  GPIO_PORTF_CR_REG;                                /*!< GPIO Commit                                                           */
-  __IO uint32_t  GPIO_PORTF_AMSEL_REG;                             /*!< GPIO Analog Mode Select                                               */
-  __IO uint32_t  GPIO_PORTF_PCTL_REG;                              /*!< GPIO Port Control                                                     */
+  __IO uint32_t  GPIO_DEN_REG;                               /*!< GPIO Digital Enable                                                   */
+  __IO uint32_t  GPIO_LOCK_REG;                              /*!< GPIO Lock                                                             */
+  __IO uint32_t  GPIO_CR_REG;                                /*!< GPIO Commit                                                           */
+  __IO uint32_t  GPIO_AMSEL_REG;                             /*!< GPIO Analog Mode Select                                               */
+  __IO uint32_t  GPIO_PCTL_REG;                              /*!< GPIO Port Control                                                     */
 
   /*
     SKIPPED MEMORY MAPPED REGISTERS
@@ -93,9 +93,9 @@ int main (void) {
   
   init_GPIOF();
 	while (1) {
-		GPIOF_APB->GPIO_PORTF_DATA_REG = 0x00;
+		GPIOF_APB->GPIO_DATA_REG = 0x00;
 		delay(1000);
-		GPIOF_APB->GPIO_PORTF_DATA_REG = 0x04;
+		GPIOF_APB->GPIO_DATA_REG = 0x04;
 		delay(1000);
 	}
 
@@ -106,14 +106,14 @@ void init_GPIOF(void) {
 	GPIO_HBCTL_REG &= ~(1UL << 4);				            //Use APB bus for GPIOF
 	GPIO_RCGC_REG |= 0x020;								            //enable clock to GPIOF
 	delay(1);															            //allow clock to stablize
-	GPIOF_APB->GPIO_PORTF_LOCK_REG		= 0x4C4F434B;		//Unlock GPIOCR Register for write access
-	GPIOF_APB->GPIO_PORTF_CR_REG			= 0x1F;					//Unlock GPIOAFSEL, GPIOPUR, GPIOPDR, or GPIODEN bits to be written
-	GPIOF_APB->GPIO_PORTF_DIR_REG 		= 0x0E;					//PF3-1	Output, PF0,PF4 Input
-	GPIOF_APB->GPIO_PORTF_AFSEL_REG	= 0x00;					  //Disable alternate function on all PORTF pins
-	GPIOF_APB->GPIO_PORTF_PCTL_REG 	= 0x00000000;		  //GPIO function on PCTL
-	GPIOF_APB->GPIO_PORTF_PUR_REG 		= 0x1F;					//Pullup all Pins
-	GPIOF_APB->GPIO_PORTF_DEN_REG		= 0x1F;					  //Enable Digital I/O function of all PORTF pins
-	GPIOF_APB->GPIO_PORTF_AMSEL_REG	= 0x00;					  //Disable analogue functions on PORTF pins
+	GPIOF_APB->GPIO_LOCK_REG		= 0x4C4F434B;		//Unlock GPIOCR Register for write access
+	GPIOF_APB->GPIO_CR_REG			= 0x1F;					//Unlock GPIOAFSEL, GPIOPUR, GPIOPDR, or GPIODEN bits to be written
+	GPIOF_APB->GPIO_DIR_REG 		= 0x0E;					//PF3-1	Output, PF0,PF4 Input
+	GPIOF_APB->GPIO_AFSEL_REG	= 0x00;					  //Disable alternate function on all PORTF pins
+	GPIOF_APB->GPIO_PCTL_REG 	= 0x00000000;		  //GPIO function on PCTL
+	GPIOF_APB->GPIO_PUR_REG 		= 0x1F;					//Pullup all Pins
+	GPIOF_APB->GPIO_DEN_REG		= 0x1F;					  //Enable Digital I/O function of all PORTF pins
+	GPIOF_APB->GPIO_AMSEL_REG	= 0x00;					  //Disable analogue functions on PORTF pins
 }
 
 void delay (uint32_t count) {
