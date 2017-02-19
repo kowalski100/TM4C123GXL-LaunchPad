@@ -1,21 +1,23 @@
-/********************************************************************
+/*********************************************************************
 
 			Tiva LaunchPad (TM4C123GH6PM) Bare Matel Programming Demo
 
-												BLINKY LED (RED)
-********************************************************************/
+                      BLINKY LED (RED)
+      This Project Uses standard Registers definitions to Blink
+                   LED on Tiva Launchpad
+*********************************************************************/
 
 
 #include <tm4c123gh6pm.h>
 #include <stdint.h>
 
-#define GPIO_PORTF_DATA_REG						*(volatile uint32_t *)0x400253FC		
+#define GPIO_PORTF_DATA_REG           *(volatile uint32_t *)0x400253FC		
 #define GPIO_PORTF_DIR_REG						*(volatile uint32_t *)0x40025400		
 #define GPIO_PORTF_AFSEL_REG					*(volatile uint32_t *)0x40025420		
 #define GPIO_PORTF_PUR_REG						*(volatile uint32_t *)0x40025510		
 #define GPIO_PORTF_DEN_REG						*(volatile uint32_t *)0x4002551C		
 #define GPIO_PORTF_LOCK_REG						*(volatile uint32_t *)0x40025520		
-#define GPIO_PORTF_CR_REG							*(volatile uint32_t *)0x40025524		
+#define GPIO_PORTF_CR_REG						  *(volatile uint32_t *)0x40025524		
 #define GPIO_PORTF_AMSEL_REG					*(volatile uint32_t *)0x40025528		
 #define GPIO_PORTF_PCTL_REG						*(volatile uint32_t *)0x4002552C
 	
