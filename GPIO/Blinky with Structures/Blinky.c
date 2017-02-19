@@ -5,7 +5,7 @@
 
                         BLINKY LED (BLUE)
                         
-  This Project DEFINES A REGISTER and map it PORTF APB Base Address
+  This Project DEFINES a Structure and map it PORTF APB Base Address
           BLUE LED blinks continuously on Tiva Launchpad
 *********************************************************************/
 
