@@ -3,7 +3,7 @@
 
 			Tiva LaunchPad (TM4C123GH6PM) Bare Matel Programming Demo
 
-                        BLINKY LED (BLUE)
+                        BLINKY LED (GREEN)
                         
   This Project uses CMSIS-CORE Library to Program GPIO on Launch Pad
           Green LED blinks continuously on Tiva Launchpad
