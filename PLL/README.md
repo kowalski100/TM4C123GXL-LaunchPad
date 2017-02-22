@@ -61,7 +61,7 @@ We want the frequency to be set to maximum clock frequency allowed for TM4C123GH
 </p>
 <br>
 
-•	Clear SYSDIV2LSB (from above table). **RCC2 -> SYSDIV2LSB -> 0 ** <br>
+•	Clear SYSDIV2LSB (from above table). **RCC2 -> SYSDIV2LSB -> 0** <br>
 •	Set the Divisor to be 5. From table (0x02). **RCC2 -> SYSDIV2 -> 0x02** <br>
 •	Wait for the PLL to Setup. **While (RIS -> PLLRIS  != 1)** <br>
 •	Remove Bypass from PLL to source main clock. **RCC2 -> BYPASS2 -> 0** <br>
