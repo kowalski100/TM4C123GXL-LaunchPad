@@ -1,5 +1,5 @@
 #PLL and Clock Settings in TM4C123GH6PM
-The most fundamental element of any Microprocessor or Microcontroller is Clock Source. Its like heart beat that keeps the Microcontroller/Microprocessor alive and running. If the clock source is removed, the Microcontroller/Microprocessor stops executing the application program. The TM4c123 LaunchPad controller provides 4 clock sources to be customized and used in different scenarios. Two of them are internal to TM4C123GH6PM and two external clock ports are provided to add external clock sources or crystal oscillators. The clock sources includes: <br>
+The most fundamental element of any Microprocessor or Microcontroller is Clock Source. Its like heart beat that keeps the Microcontroller/Microprocessor alive and running. If the clock source is removed, the Microcontroller/Microprocessor stops executing the application program. The TM4c123 LaunchPad controller provides 4 clock sources to be customized and used in different scenarios. Two of them are internal to TM4C123GH6PM and two external clock ports are provided to add external clock sources or crystal oscillators. The clock sources includes: <br> <br> <br>
 •	Main Oscillator (MOSC)                              [External]  <br>
 •	Hibernate OSC                                       [External]  <br>
 •	Precision Internal Oscillator (PIOSC)               [Internal]  <br>
@@ -26,7 +26,10 @@ This is clear from bellow diagram.
 </p>
 <br>
 As shown in above diagram, the MOSC sources 480MHz PLL for USB clock. From Datasheet 
-> “To function within the clocking requirements of the USB specification, a crystal of 5, 6, 8, 10, 12, or 16 MHz must be used.”
+
+> “To function within the clocking requirements of the USB specification, a crystal of 5, 6, 8, 10, 12, or 16 MHz must be used.” <br>
+
+
 That is one of the reason a standard high precision 16Mhz crystal is attached at MOSC clock source.
 <br>
 ### Registers:
