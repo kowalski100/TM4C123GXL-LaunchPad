@@ -14,6 +14,6 @@ FORMULA: Bit Band Alias Region Base Addr + (byte offset from bit band region x 3
   <img src="../Resources/bitband1.png"/>
 </p>
 <br><br>
-RESOURCES:
-1) Bai Y.Practical Microcontroller Engineering with ARM Technology
+RESOURCES: <br>
+1) Bai Y.Practical Microcontroller Engineering with ARM Technology <br>
 2) https://spin.atomicobject.com/2013/02/08/bit-banding/
