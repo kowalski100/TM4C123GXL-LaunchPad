@@ -20,8 +20,8 @@ GPIOFCR_APB_REG				EQU			0x40025524
 GPIOPURF_APB_REG			EQU			0x40025510
 
 ; register values
-GPIO_UNLOCK_VAL		EQU					0x4C4F434B
-DELAY_VALUE			EQU					500000
+GPIO_UNLOCK_VAL		        EQU			0x4C4F434B
+DELAY_VALUE			        EQU			500000
 
 				AREA 	|.text|, CODE, READONLY, ALIGN=2
 				THUMB
@@ -33,7 +33,7 @@ Main
 				
 				LDR		R1,		=GPIOFDATA_APB_REG
 
-loop			LDR		R2,		=DELAY_VALUE
+loop            LDR		R2,		=DELAY_VALUE
 
 delay			SUB		R2, 	R2, 	#0x1
 				CMP		R2,		#0
