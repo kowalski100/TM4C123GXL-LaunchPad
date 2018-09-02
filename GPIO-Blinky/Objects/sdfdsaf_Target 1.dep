@@ -1,0 +1,2 @@
+Dependencies for Project 'sdfdsaf', Target 'Target 1': (DO NOT MODIFY !)
+F (.\file.s)(0x5B895689)(--cpu Cortex-M4.fp -g --apcs=interwork -I.\RTE\_Target_1-Ie:\Keil_v5\ARM\PACK\Keil\TM4C_DFP\1.1.0\Device\Include\TM4C123-Ie:\Keil_v5\ARM\CMSIS\Include--pd "__UVISION_VERSION SETA 523" --pd "TM4C123GH6PM SETA 1"--list .\listings\file.lst --xref -o .\objects\file.o --depend .\objects\file.d)

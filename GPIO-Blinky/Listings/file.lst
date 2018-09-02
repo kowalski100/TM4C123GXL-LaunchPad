@@ -1,0 +1,49 @@
+
+
+
+ARM Macro Assembler    Page 1 
+
+
+    1 00000000         
+    2 00000000         
+    3 00000000         
+    4 00000000         
+    5 00000000                 area             |.text|, code, readonly, align=
+2
+    6 00000000                 thumb
+    7 00000000                 export           __main
+    8 00000000         
+    9 00000000         __main
+   10 00000000 E7FE            b                .
+   11 00000002         
+   12 00000002 00 00           align
+   13 00000004                 end
+Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M4.fp --apcs=int
+erwork --depend=.\objects\file.d -o.\objects\file.o -I.\RTE\_Target_1 -Ie:\Keil
+_v5\ARM\PACK\Keil\TM4C_DFP\1.1.0\Device\Include\TM4C123 -Ie:\Keil_v5\ARM\CMSIS\
+Include --predefine="__UVISION_VERSION SETA 523" --predefine="TM4C123GH6PM SETA
+ 1" --list=.\listings\file.lst file.s
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Relocatable symbols
+
+.text 00000000
+
+Symbol: .text
+   Definitions
+      At line 5 in file file.s
+   Uses
+      None
+Comment: .text unused
+__main 00000000
+
+Symbol: __main
+   Definitions
+      At line 9 in file file.s
+   Uses
+      At line 7 in file file.s
+Comment: __main used once
+2 symbols
+335 symbols in table

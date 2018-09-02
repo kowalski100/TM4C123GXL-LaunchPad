@@ -1,0 +1,315 @@
+
+
+
+ARM Macro Assembler    Page 1 
+
+
+    1 00000000         
+    2 00000000         ; @author: Ijaz Ahmad
+    3 00000000         ; 
+    4 00000000         ; @warranty: void
+    5 00000000         ;
+    6 00000000         ; @description: Blinkys onboard RED led on Tivs-C TM4C12
+                       3GXL Launchpad
+    7 00000000         
+    8 00000000         
+    9 00000000         ; clock / bus control registers
+   10 00000000 400FE108 
+                       RCGC2GPIO_REG
+                               EQU              0x400FE108
+   11 00000000 400FE06C 
+                       GPIOHBCTL_REG
+                               EQU              0x400FE06C
+   12 00000000         
+   13 00000000         
+   14 00000000         ; gpio registers
+   15 00000000 40025400 
+                       GPIOFDIR_APB_REG
+                               EQU              0x40025400
+   16 00000000 4002551C 
+                       GPIOFDEN_APB_REG
+                               EQU              0x4002551C
+   17 00000000 4002500C 
+                       GPIOFDATA_APB_REG
+                               EQU              0x4002500C
+   18 00000000 40025520 
+                       GPIOFLOCK_APB_REG
+                               EQU              0x40025520
+   19 00000000 40025524 
+                       GPIOFCR_APB_REG
+                               EQU              0x40025524
+   20 00000000 40025510 
+                       GPIOFPUR_APB_REG
+                               EQU              0x40025510
+   21 00000000 40025514 
+                       GPIOFPDR_APB_REG
+                               EQU              0x40025514
+   22 00000000         
+   23 00000000         
+   24 00000000         ; register values
+   25 00000000 4C4F434B 
+                       GPIO_UNLOCK_VAL
+                               EQU              0x4C4F434B
+   26 00000000 0007A120 
+                       DELAY_VALUE
+                               EQU              500000
+   27 00000000         
+   28 00000000                 AREA             |.text|, CODE, READONLY, ALIGN=
+2
+   29 00000000                 THUMB
+   30 00000000                 ENTRY
+   31 00000000                 EXPORT           Main
+   32 00000000         Main
+   33 00000000         
+   34 00000000 F000 F80E       BL               __gpio_init
+   35 00000004         
+
+
+
+ARM Macro Assembler    Page 2 
+
+
+   36 00000004 4916            LDR              R1,  =GPIOFDATA_APB_REG
+   37 00000006         
+   38 00000006         loop
+   39 00000006         ; read data register value for PF.0
+   40 00000006 6808            LDR              R0,  [R1]
+   41 00000008         
+   42 00000008 F000 0001       AND              R0,  R0,  #0x1
+   43 0000000C         
+   44 0000000C 2801            CMP              R0,  #0x1
+   45 0000000E         
+   46 0000000E D103            BNE              LED_ON
+   47 00000010         
+   48 00000010 F000 0001       AND              R0,  R0,  #0x01
+   49 00000014         
+   50 00000014 6008            STR              R0,  [R1]
+   51 00000016         
+   52 00000016 E7F6            B                loop
+   53 00000018         
+   54 00000018         LED_ON
+   55 00000018 F040 0002       ORR              R0,  R0,  #0x02
+   56 0000001C         
+   57 0000001C 6008            STR              R0,  [R1]
+   58 0000001E         
+   59 0000001E E7F2            B                loop
+   60 00000020         
+   61 00000020         __gpio_init
+   62 00000020         
+   63 00000020         ; use APB bus for GPIOF
+   64 00000020 4910            LDR              R1,  =GPIOHBCTL_REG
+   65 00000022 6808            LDR              R0,  [R1]
+   66 00000024 F000 001F       AND              R0,  R0,  #0x1F ; clear bit-5
+   67 00000028 6008            STR              R0,  [R1]
+   68 0000002A         
+   69 0000002A         ; enable clock to GPIO-F
+   70 0000002A 490F            LDR              R1,  =RCGC2GPIO_REG
+   71 0000002C 6808            LDR              R0,  [R1]
+   72 0000002E F040 0020       ORR              R0,  R0,  #0x20
+   73 00000032 6008            STR              R0,  [R1]
+   74 00000034         
+   75 00000034         
+   76 00000034         ; unlock GPIOCR Register for write access
+   77 00000034 490D            LDR              R1,  =GPIOFLOCK_APB_REG
+   78 00000036 480E            LDR              R0,  =GPIO_UNLOCK_VAL
+   79 00000038 6008            STR              R0,  [R1]
+   80 0000003A         
+   81 0000003A         ; unlock GPIOAFSEL, GPIOPUR, GPIOPDR, and GPIODEN for PF
+                       .0-1
+   82 0000003A 490E            LDR              R1,  =GPIOFCR_APB_REG
+   83 0000003C 6808            LDR              R0,  [R1]
+   84 0000003E F040 0003       ORR              R0,  R0,  #0x03
+   85 00000042 6008            STR              R0,  [R1]
+   86 00000044         
+   87 00000044         ; set PF.0 as input, PF.1 direction as output
+   88 00000044 490C            LDR              R1,  =GPIOFDIR_APB_REG
+   89 00000046 F04F 0002       MOV              R0,  #0x02
+   90 0000004A 6008            STR              R0,  [R1]
+   91 0000004C         
+   92 0000004C         ; pull up PF.0,1
+   93 0000004C 490B            LDR              R1,  =GPIOFPUR_APB_REG
+
+
+
+ARM Macro Assembler    Page 3 
+
+
+   94 0000004E 6808            LDR              R0,  [R1]
+   95 00000050 F040 0003       ORR              R0,  R0,  #0x03
+   96 00000054 6008            STR              R0,  [R1]
+   97 00000056         
+   98 00000056         
+   99 00000056         ; enable digital functionality for PF.1
+  100 00000056 490A            LDR              R1,  =GPIOFDEN_APB_REG
+  101 00000058 F04F 0003       MOV              R0,  #0x03
+  102 0000005C 6008            STR              R0,  [R1]
+  103 0000005E         
+  104 0000005E 4770            BX               LR
+  105 00000060         
+  106 00000060                 ALIGN
+  107 00000060                 END
+              4002500C 
+              400FE06C 
+              400FE108 
+              40025520 
+              4C4F434B 
+              40025524 
+              40025400 
+              40025510 
+              4002551C 
+Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M4.fp --apcs=int
+erwork --depend=.\objects\main.d -o.\objects\main.o -I.\RTE\_GPIO-Input -Ie:\Ke
+il_v5\ARM\PACK\ARM\CMSIS\5.3.0\CMSIS\Include -Ie:\Keil_v5\ARM\PACK\Keil\TM4C_DF
+P\1.1.0\Device\Include\TM4C123 --predefine="__UVISION_VERSION SETA 523" --prede
+fine="_RTE_ SETA 1" --predefine="TM4C123GH6PM SETA 1" --list=.\listings\main.ls
+t main.s
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Relocatable symbols
+
+.text 00000000
+
+Symbol: .text
+   Definitions
+      At line 28 in file main.s
+   Uses
+      None
+Comment: .text unused
+LED_ON 00000018
+
+Symbol: LED_ON
+   Definitions
+      At line 54 in file main.s
+   Uses
+      At line 46 in file main.s
+Comment: LED_ON used once
+Main 00000000
+
+Symbol: Main
+   Definitions
+      At line 32 in file main.s
+   Uses
+      At line 31 in file main.s
+Comment: Main used once
+__gpio_init 00000020
+
+Symbol: __gpio_init
+   Definitions
+      At line 61 in file main.s
+   Uses
+      At line 34 in file main.s
+Comment: __gpio_init used once
+loop 00000006
+
+Symbol: loop
+   Definitions
+      At line 38 in file main.s
+   Uses
+      At line 52 in file main.s
+      At line 59 in file main.s
+
+5 symbols
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Absolute symbols
+
+DELAY_VALUE 0007A120
+
+Symbol: DELAY_VALUE
+   Definitions
+      At line 26 in file main.s
+   Uses
+      None
+Comment: DELAY_VALUE unused
+GPIOFCR_APB_REG 40025524
+
+Symbol: GPIOFCR_APB_REG
+   Definitions
+      At line 19 in file main.s
+   Uses
+      At line 82 in file main.s
+Comment: GPIOFCR_APB_REG used once
+GPIOFDATA_APB_REG 4002500C
+
+Symbol: GPIOFDATA_APB_REG
+   Definitions
+      At line 17 in file main.s
+   Uses
+      At line 36 in file main.s
+Comment: GPIOFDATA_APB_REG used once
+GPIOFDEN_APB_REG 4002551C
+
+Symbol: GPIOFDEN_APB_REG
+   Definitions
+      At line 16 in file main.s
+   Uses
+      At line 100 in file main.s
+Comment: GPIOFDEN_APB_REG used once
+GPIOFDIR_APB_REG 40025400
+
+Symbol: GPIOFDIR_APB_REG
+   Definitions
+      At line 15 in file main.s
+   Uses
+      At line 88 in file main.s
+Comment: GPIOFDIR_APB_REG used once
+GPIOFLOCK_APB_REG 40025520
+
+Symbol: GPIOFLOCK_APB_REG
+   Definitions
+      At line 18 in file main.s
+   Uses
+      At line 77 in file main.s
+Comment: GPIOFLOCK_APB_REG used once
+GPIOFPDR_APB_REG 40025514
+
+Symbol: GPIOFPDR_APB_REG
+   Definitions
+      At line 21 in file main.s
+   Uses
+      None
+Comment: GPIOFPDR_APB_REG unused
+GPIOFPUR_APB_REG 40025510
+
+Symbol: GPIOFPUR_APB_REG
+
+
+
+ARM Macro Assembler    Page 2 Alphabetic symbol ordering
+Absolute symbols
+
+   Definitions
+      At line 20 in file main.s
+   Uses
+      At line 93 in file main.s
+Comment: GPIOFPUR_APB_REG used once
+GPIOHBCTL_REG 400FE06C
+
+Symbol: GPIOHBCTL_REG
+   Definitions
+      At line 11 in file main.s
+   Uses
+      At line 64 in file main.s
+Comment: GPIOHBCTL_REG used once
+GPIO_UNLOCK_VAL 4C4F434B
+
+Symbol: GPIO_UNLOCK_VAL
+   Definitions
+      At line 25 in file main.s
+   Uses
+      At line 78 in file main.s
+Comment: GPIO_UNLOCK_VAL used once
+RCGC2GPIO_REG 400FE108
+
+Symbol: RCGC2GPIO_REG
+   Definitions
+      At line 10 in file main.s
+   Uses
+      At line 70 in file main.s
+Comment: RCGC2GPIO_REG used once
+11 symbols
+352 symbols in table
