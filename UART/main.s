@@ -4,7 +4,7 @@
 ;	@warranty:	  void
 ;
 ;	@description: Simple Transmission/Reception over UART0
-;				  data is pingged back
+;				  data is looped back
 
 
 ; uart registers
@@ -107,7 +107,7 @@ __uart_init
 				MOV		R0,		#0x5
 				STR		R0,		[R1]
 				
-				; enable both transmission and reception on UART0
+				; enable UART0
 				LDR		R1,		=UART0CTL_REG
 				LDR		R0,		[R1]
 				ORR		R0,		R0,		#0x1
