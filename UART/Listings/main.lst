@@ -107,8 +107,11 @@ ARM Macro Assembler    Page 2
    58 00000016         
    59 00000016         ; transmit data
    60 00000016 6810            LDR              R0,  [R2]
-   61 00000018 F000 00FF       AND              R0,  R0,  #0xFF
-   62 0000001C 6010            STR              R0,  [R2]
+   61 00000018 F000 00FF       AND              R0,  R0,  #0xFF ; mask the lowe
+                                                            r 8-bits 
+   62 0000001C 6010            STR              R0,  [R2]   ; write received da
+                                                            ta to data register
+                                                            
    63 0000001E         
    64 0000001E         ; wait until TX completes
    65 0000001E 6808    tx_busy LDR              R0,  [R1]
@@ -125,15 +128,15 @@ ARM Macro Assembler    Page 2
    75 0000002A 4926            LDR              R1,  =RCGC1_REG
    76 0000002C 6808            LDR              R0,  [R1]
    77 0000002E F040 0001       ORR              R0,  R0,  #0x1
-   78 00000032 6008            STR              R0,  [R1]
-   79 00000034         
-   80 00000034 BF00            NOP
 
 
 
 ARM Macro Assembler    Page 3 
 
 
+   78 00000032 6008            STR              R0,  [R1]
+   79 00000034         
+   80 00000034 BF00            NOP
    81 00000036 BF00            NOP
    82 00000038 BF00            NOP
    83 0000003A         
@@ -158,9 +161,10 @@ ARM Macro Assembler    Page 3
   102 00000056 F440 7040       ORR              R0,  R0,  #0x300
   103 0000005A 6008            STR              R0,  [R1]
   104 0000005C         
-  105 0000005C         ; UART0 clocked from system clock
+  105 0000005C         ; UART0 clocked from PIOSC clock
   106 0000005C 491E            LDR              R1,  =UART0CC_REG
-  107 0000005E F04F 0005       MOV              R0,  #0x5
+  107 0000005E F04F 0005       MOV              R0,  #0x5   ; PIOSC clock sourc
+                                                            e - 16Mhz
   108 00000062 6008            STR              R0,  [R1]
   109 00000064         
   110 00000064         ; enable UART0
@@ -189,16 +193,16 @@ ARM Macro Assembler    Page 3
   133 00000084         
   134 00000084         ; unlock GPIOCR Register for write access
   135 00000084 4917            LDR              R1,  =GPIOALOCK_APB_REG
-  136 00000086 4818            LDR              R0,  =GPIO_UNLOCK_VAL
-  137 00000088 6008            STR              R0,  [R1]
-  138 0000008A         
-  139 0000008A         ; unlock GPIODEN for PA.0-1
 
 
 
 ARM Macro Assembler    Page 4 
 
 
+  136 00000086 4818            LDR              R0,  =GPIO_UNLOCK_VAL
+  137 00000088 6008            STR              R0,  [R1]
+  138 0000008A         
+  139 0000008A         ; unlock GPIODEN for PA.0-1
   140 0000008A 4918            LDR              R1,  =GPIOACR_APB_REG
   141 0000008C 6808            LDR              R0,  [R1]
   142 0000008E F040 0003       ORR              R0,  R0,  #0x03
@@ -254,6 +258,12 @@ ARM Macro Assembler    Page 4
               4000452C 
 Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M4.fp --apcs=int
 erwork --depend=.\objects\main.d -o.\objects\main.o -I.\RTE\_UART -Ie:\Keil_v5\
+
+
+
+ARM Macro Assembler    Page 5 
+
+
 ARM\PACK\ARM\CMSIS\5.3.0\CMSIS\Include -Ie:\Keil_v5\ARM\PACK\Keil\TM4C_DFP\1.1.
 0\Device\Include\TM4C123 --predefine="__UVISION_VERSION SETA 523" --predefine="
 _RTE_ SETA 1" --predefine="TM4C123GH6PM SETA 1" --list=.\listings\main.lst main

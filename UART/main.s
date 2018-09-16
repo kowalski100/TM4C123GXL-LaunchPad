@@ -58,8 +58,8 @@ loop
 
 				; transmit data
 				LDR		R0,		[R2]				
-				AND 	R0,		R0,		#0xFF
-				STR		R0, 	[R2]
+				AND 	R0,		R0,		#0xFF  ; mask the lower 8-bits 
+				STR		R0, 	[R2]           ; write received data to data register
 
 				; wait until TX completes
 tx_busy			LDR		R0, 	[R1]				
@@ -102,9 +102,9 @@ __uart_init
 				ORR		R0,		R0,		#0x300
 				STR		R0,		[R1]
 				
-				; UART0 clocked from system clock
+				; UART0 clocked from PIOSC clock
 				LDR		R1,		=UART0CC_REG
-				MOV		R0,		#0x5
+				MOV		R0,		#0x5    ; PIOSC clock source - 16Mhz
 				STR		R0,		[R1]
 				
 				; enable UART0
