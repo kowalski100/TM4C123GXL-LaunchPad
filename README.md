@@ -1,4 +1,4 @@
 # TM4C123GXL-LaunchPad
 
-## TUTORIALS DETAILS : www.embedded-soc.tk
+## TUTORIALS DETAILS : https://embedded-soc.000webhostapp.com/
 
